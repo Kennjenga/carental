@@ -1,7 +1,7 @@
 import { CarProps, FilterProps } from "@/types";
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
-  const basePricePerDay = 50; // Base rental price per day in dollars
+  const basePricePerDay = 3000; // Base rental price per day in dollars
   const mileageFactor = 0.1; // Additional rate per mile driven
   const ageFactor = 0.05; // Additional rate per year of vehicle age
 
