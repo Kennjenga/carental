@@ -1,7 +1,6 @@
 export const manufacturers = [
   "Acura",
-  "Alfa Romeo",
-  "Aston Martin",
+
   "Audi",
   "Bentley",
   "BMW",
@@ -11,7 +10,7 @@ export const manufacturers = [
   "Chrysler",
   "Citroen",
   "Dodge",
-  "Ferrari",
+
   "Fiat",
   "Ford",
   "GMC",
@@ -21,7 +20,7 @@ export const manufacturers = [
   "Jaguar",
   "Jeep",
   "Kia",
-  "Lamborghini",
+
   "Land Rover",
   "Lexus",
   "Lincoln",
@@ -36,7 +35,7 @@ export const manufacturers = [
   "Ram",
   "Rolls-Royce",
   "Subaru",
-  "Tesla",
+
   "Toyota",
   "Volkswagen",
   "Volvo",
