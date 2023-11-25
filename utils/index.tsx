@@ -1,7 +1,8 @@
 import { CarProps, FilterProps } from "@/types";
+import Image from "next/image";
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
-  const basePricePerDay = 50; // Base rental price per day in dollars
+  const basePricePerDay = 3000; // Base rental price per day in dollars
   const mileageFactor = 0.1; // Additional rate per mile driven
   const ageFactor = 0.05; // Additional rate per year of vehicle age
 
@@ -42,37 +43,54 @@ export const deleteSearchParams = (type: string) => {
 
   return newPathname;
 };
+const model: string = "camry";
+const apiKey: string = "ss0T8iN0iI7MvUCEwmiKFw==43wD8VPWgJ6A0fqD";
 
-export async function fetchCars(filters: FilterProps) {
-  const { manufacturer, year, model, limit, fuel } = filters;
+const url = `https://api.api-ninjas.com/v1/cars?model=corolla`;
 
-  // Set the required headers for the API request
-  const headers: HeadersInit = {
-    "X-RapidAPI-Key": process.env.NEXT_PUBLIC_RAPID_API_KEY || "",
-    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
+fetch(url, {
+  method: "GET",
+  headers: {
+    "X-Api-Key": apiKey,
+  },
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error("Request failed:", error.message);
+  });
+
+export async function fetchCars() {
+  const headers = {
+    "X-Api-Key": apiKey,
   };
 
-  // Set the required headers for the API request
   const response = await fetch(
-    `https://cars-by-api-ninjas.p.rapidapi.com/v1/cars?make=${manufacturer}&year=${year}&model=${model}&limit=${limit}&fuel_type=${fuel}`,
+    `https://api.api-ninjas.com/v1/cars?model=${model}`,
     {
       headers: headers,
     }
   );
 
-  // Parse the response as JSON
   const result = await response.json();
 
   return result;
 }
 
-export const generateCarImageUrl = (car: CarProps, angle?: string) => {
+/*export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
   const { make, model, year } = car;
 
   url.searchParams.append(
     "customer",
-    process.env.NEXT_PUBLIC_IMAGIN_API_KEY || ""
+    process.env.NEXT_PUBLIC_IMAGIN_API_KEY || "hrjavascript-mastery"
   );
   url.searchParams.append("make", make);
   url.searchParams.append("modelFamily", model.split(" ")[0]);
@@ -83,3 +101,4 @@ export const generateCarImageUrl = (car: CarProps, angle?: string) => {
 
   return `${url}`;
 };
+*/
