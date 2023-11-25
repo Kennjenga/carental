@@ -3,8 +3,8 @@ import Image from "next/image";
 
 export const calculateCarRent = (city_mpg: number, year: number) => {
   const basePricePerDay = 3000; // Base rental price per day in dollars
-  const mileageFactor = 0.1; // Additional rate per mile driven
-  const ageFactor = 0.05; // Additional rate per year of vehicle age
+  const mileageFactor = 15; // Additional rate per mile driven
+  const ageFactor = 7; // Additional rate per year of vehicle age
 
   // Calculate additional rate based on mileage and age
   const mileageRate = city_mpg * mileageFactor;
@@ -43,35 +43,17 @@ export const deleteSearchParams = (type: string) => {
 
   return newPathname;
 };
-const model: string = "camry";
-const apiKey: string = "ss0T8iN0iI7MvUCEwmiKFw==43wD8VPWgJ6A0fqD";
 
-const url = `https://api.api-ninjas.com/v1/cars?model=corolla`;
+export async function fetchCars(filters: FilterProps) {
+  const { manufacturer, year, model, limit, fuel } = filters;
 
-fetch(url, {
-  method: "GET",
-  headers: {
-    "X-Api-Key": apiKey,
-  },
-})
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status} ${response.statusText}`);
-    }
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error("Request failed:", error.message);
-  });
-
-export async function fetchCars() {
-  const headers = {
-    "X-Api-Key": apiKey,
+  // Set the required headers for the API request
+  const headers: HeadersInit = {
+    "X-RapidAPI-Key": "91ec7eec15mshaef0342373f34fcp1d2d23jsn3e5402541301",
+    "X-RapidAPI-Host": "cars-by-api-ninjas.p.rapidapi.com",
   };
 
+  // Set the required headers for the API request
   const response = await fetch(
     `https://api.api-ninjas.com/v1/cars?model=${model}`,
     {
@@ -84,14 +66,11 @@ export async function fetchCars() {
   return result;
 }
 
-/*export const generateCarImageUrl = (car: CarProps, angle?: string) => {
+export const generateCarImageUrl = (car: CarProps, angle?: string) => {
   const url = new URL("https://cdn.imagin.studio/getimage");
   const { make, model, year } = car;
 
-  url.searchParams.append(
-    "customer",
-    process.env.NEXT_PUBLIC_IMAGIN_API_KEY || "hrjavascript-mastery"
-  );
+  url.searchParams.append("customer", "hrjavascript-mastery");
   url.searchParams.append("make", make);
   url.searchParams.append("modelFamily", model.split(" ")[0]);
   url.searchParams.append("zoomType", "fullscreen");
@@ -101,4 +80,3 @@ export async function fetchCars() {
 
   return `${url}`;
 };
-*/
