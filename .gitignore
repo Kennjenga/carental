@@ -13,6 +13,10 @@
 /.next/
 /out/
 
+// .gitignore
+.env*.local
+
+
 # production
 /build
 
