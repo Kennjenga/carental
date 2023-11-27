@@ -1,5 +1,5 @@
 // pages/api/update-profile.ts
-import { executeQuery } from "./lib/db"; // import the helper function
+import  executeQuery  from "./lib/db"; // import the helper function
 import bcrypt from "bcryptjs"; // import bcrypt to hash the password
 
 export default async function handler(req: { method: string; body: { name: any; email: any; password: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; }) {
