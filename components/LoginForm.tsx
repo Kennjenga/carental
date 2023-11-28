@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import mysql2 from "mysql2";
 
 export default function LoginForm() {
   // Define the state variables for the username and password inputs
@@ -16,20 +17,43 @@ export default function LoginForm() {
     // Prevent the default behavior of the form
     e.preventDefault();
 
-    // Validate the username and password
-    // You can use any authentication service or API here
-    // For simplicity, we will use a mock username and password
-    const validUsername = "user";
-    const validPassword = "web_dev";
+    // Create a connection to the MySQL database
+    // You will need to provide your own credentials and database name
+    const connection = mysql2.createConnection({
+      host: "localhost",
+      user: "root",
+      password: "password",
+      database: "profiles",
+    });
 
-    // Check if the username and password match the valid ones
-    if (username === validUsername && password === validPassword) {
-      // If they match, redirect the user to the home page
-      router.push("/");
-    } else {
-      // If they don't match, show an alert message
-      alert("Invalid username or password");
-    }
+    // Connect to the database
+    connection.connect((err) => {
+      if (err) {
+        // If there is an error, show an alert message
+        alert("Error connecting to the database: " + err.message);
+      } else {
+        // If the connection is successful, query the database for the username and password
+        const query =
+          "SELECT * FROM profiles WHERE username = ? AND password = ?";
+        connection.query(query, [username, password], (err, results: any) => {
+          if (err) {
+            // If there is an error, show an alert message
+            alert("Error querying the database: " + err.message);
+          } else {
+            // If the query is successful, check if the results are not empty
+            if (results.length > 0) {
+              // If the results are not empty, that means the username and password are valid
+              // Redirect the user to the home page
+              router.push("/");
+            } else {
+              // If the results are empty, that means the username and password are invalid
+              // Show an alert message
+              alert("Invalid username or password");
+            }
+          }
+        });
+      }
+    });
   };
 
   // Define the function to handle the username input change
