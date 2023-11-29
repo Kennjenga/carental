@@ -1,11 +1,25 @@
 "use client";
-import React from "react";
-import { useState } from "react";
-import Link from "next/dist/client/link";
+import React, { useState } from "react";
+import Link from "next/link";
+import axios from "axios";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const login = () => {
+    axios({
+      method: "post",
+      data: {
+        username: username,
+        password: password,
+      },
+      withCredentials: true,
+      url: "http://localhost:3001/Login",
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -24,32 +38,37 @@ const Login = () => {
             name="username"
             id="username"
             placeholder="username"
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
+            htmlFor="password"
           >
-            Email
+            Password
           </label>
           <input
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type="text"
-            name="email"
-            id="email"
-            placeholder="email"
+            type="password"
+            name="password"
+            id="password"
+            placeholder="password"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <div className="mb-6">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
-            type="button"
-          >
-            Sign in
-          </button>
+          <Link href={""}>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+              type="button"
+              onClick={login}
+            >
+              Sign in
+            </button>
+          </Link>
         </div>
         <div className="flex items-center justify-center">
           <Link
