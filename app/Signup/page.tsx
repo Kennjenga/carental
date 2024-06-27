@@ -18,7 +18,6 @@ const Signup = () => {
     e.preventDefault();
     // Validate the form inputs and send a request to the backend
     // For simplicity, we will just log the input values to the console
-    console.log({ name, email, password, confirmPassword });
     // Check if the passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match");
